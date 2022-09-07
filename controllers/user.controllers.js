@@ -6,6 +6,8 @@ const {generate_jwt}= require('../helpers/generate_jwt')
 
 //route show users
 
+
+//login admin
 ctrlUsuarios.rutaLoginAdmin = async(req, res)=>{
 
     const {email, password}=  req.body;
@@ -42,8 +44,13 @@ ctrlUsuarios.rutaLoginAdmin = async(req, res)=>{
 
 }
 
+
+//Iniciar session
 ctrlUsuarios.rutaLogin = async(req, res)=>{
 
+    const {email, password}=  req.body;
+
+    const user =await Usuario.findOne({email}) 
     
     if(!user){
         return res.status(401).json({
@@ -108,7 +115,7 @@ ctrlUsuarios.rutaPut = async (req , res)=>{
 
     const { id } = req.params;
 
-        const usuario = await Usuario.findByIdAndUpdate(id, {dni, password});
+        const usuario = await Usuario.findByIdAndUpdate(id, {email, password});
         return res.json(usuario)
 
 
