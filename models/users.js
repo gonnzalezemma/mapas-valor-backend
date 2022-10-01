@@ -1,21 +1,34 @@
-const {model, Schema}= require('mongoose');
-const UserShema = new Schema({
+//const {model, Schema}= require('mongoose');
+const {DataTypes}= require('sequelize')
+const {sequelize} =require('../connections')
+
+const Usuario = sequelize.define(
+    'Usuarios',{
+    id:{
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     email:{
-        type: String,
+        type: DataTypes.STRING,
         required:true
     },
     password:{
-        type: String,
-        required:true
+        type: DataTypes.STRING
     },
     activo:{
-        type: Boolean,
-        default: true
+        type: DataTypes.BOOLEAN
     },
     role:{
-        type: String,
-        required:true
+        type: DataTypes.STRING
     }
-});
+    
+}
+);
 
-module.exports = model('Usuario', UserShema);
+
+module.exports = ("Usuarios", Usuario);
+// Project.hasMany(Task, {
+//     foreinkey: "projectId",
+//     sourceKey: "id",
+//   });

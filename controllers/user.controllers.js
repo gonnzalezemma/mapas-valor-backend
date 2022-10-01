@@ -1,10 +1,46 @@
 const ctrlUsuarios={};
 
-const Usuario =require('../models/users');
+const Usuario =require('../models/Users');
 const bcryptjs = require('bcryptjs');
 const {generate_jwt}= require('../helpers/generate_jwt')
 
 //route show users
+ctrlUsuarios.mostrarUsers = async (req, res)=>{
+    try {
+        const projects = await Usuario.findAll({
+            atributes: ["id", "email","password","activo","role"],
+        });
+        res.json(projects);
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+        });
+    }
+}
+
+//create user with sequelize
+ctrlUsuarios.crearUsers = async (req, res)=>{
+    const {email, password} = req.body;
+try {
+    
+    const newUser = await Usuario.create({email, password, activo:true,role:"user"}
+,{
+    fields:["email","password","activo","role"]
+}
+
+)
+return res.json(newUser);
+
+} catch (error) {
+    res.status(500).json({
+        message: error.message,
+      });  
+}
+
+
+res.json("new user");
+}
+
 
 
 //login admin
