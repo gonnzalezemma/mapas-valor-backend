@@ -8,21 +8,26 @@ const {generate_jwt}= require('../helpers/generate_jwt')
 
 //controlador para agregar datos
 ctrlPerfilUsuarios.agregarDatos = async(req, res)=>{
-    const {nombre, apellido, celular,direccion,dni,ocupacion,lugaresInteres,organizacion, funcionOrganizacion
+    const {nombre, apellido, celular,direccion,ocupacion,lugaresInteres,organizacion, funcionOrganizacion
     }=  req.body;
-// FALTA RELACION populate
-    const userId= req.usuario._id;
 
-    const infoUser= new Perfil({userId:userId,nombre, apellido, celular,direccion,dni,ocupacion,lugaresInteres,organizacion, funcionOrganizacion})
+    const userId= req.usuario.id;
 
+    const perfil= await Perfil.create({userId:userId,nombre:nombre, apellido:apellido, celular:celular,direccion:direccion,ocupacion:ocupacion,lugarInteres:lugaresInteres,organizacion:organizacion, funcionOrganizacion:funcionOrganizacion})
 
-await infoUser.save();
+    return res.status(201).json({
+        msg:"usuario Agregado exitosamente",
+        Perfil: perfil
+    })
 }
 
 //mostrar informacion de usuario
 ctrlPerfilUsuarios.rutaMostrarInformacion = async(req,res)=>{
-   
-    const perfilUsuario = await Perfil.findOne(id)
-
+    const userId= req.params.id;
+    console.log(userId);
+    const perfilUsuario = await Perfil.findOne({where:{userId:userId}})
+console.log(perfilUsuario)
     res.json(perfilUsuario);
 }
+
+module.exports = ctrlPerfilUsuarios;

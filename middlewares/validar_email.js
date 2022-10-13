@@ -2,7 +2,7 @@ const Usuario = require('../models/Users');
 
 const ExisteEmail = async( req, res, next ) => {
     const {email}=  req.body;
-    const emailEncontrado = await  Usuario.findOne({email});
+    const emailEncontrado = await  Usuario.findOne({ where:{email:email}});
 
     if(emailEncontrado){
         return res.status(401).json({

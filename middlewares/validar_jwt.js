@@ -28,8 +28,8 @@ const validar_jwt = async (req, res, next) => {
 
         //buscamos el usuario en la BaseDeDatos
 
-        const usuario = await Usuario.findById(id);
-
+        const usuario = await Usuario.findByPk(id);
+        console.log(usuario);
         if (!usuario) {
             return res.status(401).json({message: 'usuario no existe'})
         }

@@ -2,9 +2,13 @@ const ctrlUsuarios={};
 
 const Usuario =require('../models/Users');
 const bcryptjs = require('bcryptjs');
-const {generate_jwt}= require('../helpers/generate_jwt')
+const {generate_jwt}= require('../helpers/generate_jwt');
+const { where } = require('sequelize');
 
-//route show users
+/* 
+? GET usuarios
+*Mostrar usuarios 
+ */
 ctrlUsuarios.mostrarUsers = async (req, res)=>{
     try {
         const projects = await Usuario.findAll({
@@ -17,77 +21,42 @@ ctrlUsuarios.mostrarUsers = async (req, res)=>{
         });
     }
 }
-
-//create user with sequelize
+/* 
+? POST 
+*create user with sequelize
+ */
 ctrlUsuarios.crearUsers = async (req, res)=>{
     const {email, password} = req.body;
-try {
+
+    const salt = bcryptjs.genSaltSync();
     
-    const newUser = await Usuario.create({email, password, activo:true,role:"user"}
-,{
-    fields:["email","password","activo","role"]
-}
+    const pass = bcryptjs.hashSync(password,salt )
+    
+    const newUser = await Usuario.create({email, password:pass, activo:true,role:"user"},{
+    fields:["email","password","activo","role"]}
 
 )
-return res.json(newUser);
 
-} catch (error) {
-    res.status(500).json({
-        message: error.message,
-      });  
+
+await newUser.save();
+
+    
+res.json({
+    msg:"User create user successfully"
+});
 }
-
-
-res.json("new user");
-}
-
-
-
-//login admin
-ctrlUsuarios.rutaLoginAdmin = async(req, res)=>{
-
-    const {email, password}=  req.body;
-    const user =await Usuario.findOne({email})
-
-    if(!user){
-        return res.status(401).json({
-            message: 'No existe:',
-            email:email
-        })
-    }
-    if(!user.activo){
-        return res.status(401).json({
-            message: 'No existe',
-            email:email
-        })
-    }
-    if(!user.role){
-        return res.status(401).json({
-            message: 'No tiene permisos',
-            email:email
-        })
-    }
-    //verify password
-    const passwordTrue =bcryptjs.compareSync(password,user.password)
-    if(!passwordTrue){
-        return res.status(401).json({msg:"Password unvaliable"})
-    }
-
-    //token generator
-    const token =await generate_jwt(user.id);
-
-    res.json({msg:" inicio de session exitoso", token:token})
-
-}
-
-
-//Iniciar session
+/* 
+? POST
+* Iniciar session  sequelize
+*/
 ctrlUsuarios.rutaLogin = async(req, res)=>{
 
     const {email, password}=  req.body;
 
-    const user =await Usuario.findOne({email}) 
-    
+    const user =await Usuario.findOne({where:{email:email}}) 
+
+
+
     if(!user){
         return res.status(401).json({
             mensaje:"No existe:",
@@ -104,7 +73,7 @@ ctrlUsuarios.rutaLogin = async(req, res)=>{
     }
      
 
-//verificar contrasenia
+// todo verificar contrasenia
     const passwordTrue = bcryptjs.compareSync(password,user.password)
 
     if(!passwordTrue){
@@ -118,35 +87,10 @@ ctrlUsuarios.rutaLogin = async(req, res)=>{
               token:token})
 
 };
-
-
-//ruta agregar users
-ctrlUsuarios.rutaPost = async (req,res)=>{
-     
-    const {email, password} = req.body;
-
-    const user =new Usuario({email,password,role:"user"});
-    
-    //password salt
-    const salt = bcryptjs.genSaltSync();
-    user.password = bcryptjs.hashSync(password, salt)
-
-    await user.save();
-
-    res.json({msg: 'Usuario agregado'})
-};
-
-
-//ver usuarios
-ctrlUsuarios.rutaGet = async (req,res)=>{
-
-    const user = await Usuario.find();
-
-    res.json(user);
-}
-
-
-//ruta editar users
+/*     
+todo: 
+* Edit user
+ */
 ctrlUsuarios.rutaPut = async (req , res)=>{
 
     const { id } = req.params;
@@ -157,13 +101,17 @@ ctrlUsuarios.rutaPut = async (req , res)=>{
 
 };
 
+/* 
+todo: PUT delete logical User
+!ruta eliminar users
 
-//ruta eliminar users
+ */
 ctrlUsuarios.rutaDelete = async (req,res)=>{
 
     const {id} = req.params;
 
-    const user =await Usuario.findByIdAndUpdate(id,{ activo: false });
+    const user =await Usuario.update({role:false},{where:{id:id}
+    });
 
     
     //responde si fue eliminado correctamente

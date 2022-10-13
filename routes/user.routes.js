@@ -8,7 +8,12 @@ const {ExisteEmail} = require('../middlewares/validar_email')
 //mirar que cambio ja
 //controllers 
 const {
-    // rutaPost,rutaLogin,rutaDelete,rutaGet,rutaPut,
+    // rutaPost,
+    rutaLogin,
+    rutaDelete,
+    //!rutaGet,
+    rutaPut,
+    mostrarUsers,
     crearUsers
 }= require('../controllers/user.controllers')
 
@@ -16,20 +21,22 @@ router.post('/crearuser',crearUsers)
 
 
 
-// //route login
-// router.post('/login/usuarios', rutaLogin)
+// ? POST route login
+ router.post('/login/usuarios', rutaLogin)
 
-// //route agregar usuarios
-// router.get('/usuarios/get-user',rutaGet)
+// ? POST route ver usuarios
+ router.get('/usuarios/get-user',mostrarUsers)
 
-// //route add user
-// router.post('/usuarios/create-user',ExisteEmail,rutaPost)
+// ? POST  route add user
+  router.post('/usuarios/create-user',ExisteEmail,crearUsers)
 
-// //route edit user
-// router.put('/usuarios/edit-user/:id',validar_jwt,rutaPut)
+// todo: Route edit user
+//* edit user
+router.put('/usuarios/edit-user',validar_jwt,rutaPut)
 
-// //route logical delete user
-// router.delete('/usuarios/delete-user/:id',rutaDelete)
+// TODO: route logical delete user
+//! logical Delete
+router.put('/usuarios/delete-user/',validar_jwt,rutaDelete)
 
 
 

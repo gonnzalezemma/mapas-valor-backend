@@ -12,10 +12,10 @@ const {
 }= require('../controllers/perfilUsuarios.controllers')
 
 
-router.post('/perfil/:id',validar_jwt, rutaMostrarInformacion)
+router.get('/perfil/:id', rutaMostrarInformacion)
 
 //route add user information with token 
-router.get('/usuarios/get-info/:id',validar_jwt,agregarDatos)
+router.post('/usuarios/agregar-perfil',validar_jwt,agregarDatos)
 
 
 
