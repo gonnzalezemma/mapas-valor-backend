@@ -23,7 +23,7 @@ app.use(express.urlencoded({extended: false}));
 
 app.set('port', process.env.PORT || 5000) //port conection
 
-//routes server
+//Routes Server
 
 app.use(require('./routes/user.routes'));
 app.use(require('./routes/perfilUsuarios.routes'));

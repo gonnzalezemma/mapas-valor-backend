@@ -1,6 +1,6 @@
 const ctrlUsuarios={};
 
-const Usuario =require('../models/Users');
+const {Usuario} =require('../models/SequelizeModels');
 const bcryptjs = require('bcryptjs');
 const {generate_jwt}= require('../helpers/generate_jwt');
 const { where } = require('sequelize');
@@ -63,7 +63,6 @@ ctrlUsuarios.rutaLogin = async(req, res)=>{
             email: email
         })
     }
-    console.log(user.activo)
    
     if(!user.activo){
         return res.status(401).json({
@@ -93,10 +92,21 @@ todo:
  */
 ctrlUsuarios.rutaPut = async (req , res)=>{
 
-    const { id } = req.params;
+    const user = req.usuario;
 
-        const usuario = await Usuario.findByIdAndUpdate(id, {email, password});
-        return res.json(usuario)
+        const usuario = await Usuario.findByIdAndUpdate(user.id, {email, password});
+
+        if(user.password === password){
+            res.status(404).json({
+                msg:"La contrasena no puede ser igual a la actual"})
+            }
+            if(user.email === email){
+                res.status(404).json({
+                    msg:"La contrasena no puede ser igual a la actual"})
+                
+        }
+
+        return res.status(200).json(usuario)
 
 
 };

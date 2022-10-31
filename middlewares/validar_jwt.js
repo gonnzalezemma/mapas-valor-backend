@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const {} = require('morgan');
-const Usuario = require('../models/Users');
+const {Usuario} = require('../models/SequelizeModels');
 
 const validar_jwt = async (req, res, next) => {
 
@@ -29,7 +29,7 @@ const validar_jwt = async (req, res, next) => {
         //buscamos el usuario en la BaseDeDatos
 
         const usuario = await Usuario.findByPk(id);
-        console.log(usuario);
+       
         if (!usuario) {
             return res.status(401).json({message: 'usuario no existe'})
         }
