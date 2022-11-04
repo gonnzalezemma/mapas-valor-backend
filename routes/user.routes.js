@@ -17,22 +17,30 @@ const {
     crearUsers
 }= require('../controllers/user.controllers')
 
+const { 
+  validarRutaLogin,
+  validarCreateUser,
+  //validarEditUserAdm,
+  validarEditUserUser
+
+} = require("../middlewares/validaciones");
+
 router.post('/crearuser',crearUsers)
 
 
 
 // ? POST route login
- router.post('/login/usuarios', rutaLogin)
+ router.post('/login/usuarios',validarRutaLogin, rutaLogin)
 
 // ? POST route ver usuarios
  router.get('/usuarios/get-user',mostrarUsers)
 
 // ? POST  route add user
-  router.post('/usuarios/create-user',ExisteEmail,crearUsers)
+  router.post('/usuarios/create-user',validarCreateUser,crearUsers)
 
 // todo: Route edit user
 //* edit user
-router.put('/usuarios/edit-user',validar_jwt,rutaPut)
+router.put('/usuarios/edit-user',validarEditUserUser,validar_jwt,rutaPut)
 
 // TODO: route logical delete user
 //! logical Delete

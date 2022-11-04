@@ -92,30 +92,29 @@ todo:
  */
 ctrlUsuarios.rutaPut = async (req , res)=>{
 
+    const {email, password} = req.body;
+    
     const user = req.usuario;
 
-        const usuario = await Usuario.findByIdAndUpdate(user.id, {email, password});
-
-        if(user.password === password){
+    
+    if(user.password === password){
+        res.status(404).json({
+            msg:"La contrasena no puede ser igual a la actual"})
+        }
+        if(user.email === email){
             res.status(404).json({
                 msg:"La contrasena no puede ser igual a la actual"})
-            }
-            if(user.email === email){
-                res.status(404).json({
-                    msg:"La contrasena no puede ser igual a la actual"})
                 
-        }
+            }
+            
+            const usuario = await Usuario.update({ email, password }, {where: {id:user.id}});
+          
+            return res.status(200).json({usuariosModificados: usuario})
+            
+            
+        };
+        
 
-        return res.status(200).json(usuario)
-
-
-};
-
-/* 
-todo: PUT delete logical User
-!ruta eliminar users
-
- */
 ctrlUsuarios.rutaDelete = async (req,res)=>{
 
     const {id} = req.params;
