@@ -152,6 +152,14 @@ model.NombreServicios = sequelize.define("NombreServicios", {
   nombre: {
     type: DataTypes.STRING(20),
   },
+  valorOptimo:{
+    type: DataTypes.INTEGER,
+
+  },
+  unidadMedida:{
+    type: DataTypes.INTEGER,
+
+  },
   descripcion: {
     type: DataTypes.STRING(250),
   },

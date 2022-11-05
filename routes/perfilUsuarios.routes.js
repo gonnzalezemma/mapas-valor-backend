@@ -1,10 +1,8 @@
 const router = require('express').Router();
 
-const {body, check}= require('express-validator')
 
 const {validar_jwt} =require('../middlewares/validar_jwt')
 
-const {ExisteEmail} = require('../middlewares/validar_email')
 
 //controllers 
 const {

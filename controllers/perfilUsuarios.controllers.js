@@ -46,7 +46,7 @@ if(existePerfil){
     organizacion: organizacion,
     funcionOrganizacion: funcionOrganizacion,
   });
-  console.log(Perfil)
+
   const perfil = await Perfil.findOne({ where: { PerfilUserId: userId } });
   return res.status(201).json({
     msg: "usuario Agregado exitosamente",
