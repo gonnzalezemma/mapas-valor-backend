@@ -89,6 +89,9 @@ model.Parcelas = sequelize.define("Parcelas", {
   parcela: {
     type: DataTypes.GEOMETRY("POLYGON"),
   },
+  nombreParcela: {
+    type: DataTypes.STRING(10),
+  }
 });
 
 model.Registros = sequelize.define(
@@ -163,6 +166,9 @@ model.NombreServicios = sequelize.define("NombreServicios", {
   descripcion: {
     type: DataTypes.STRING(250),
   },
+  createFor:{
+    type: DataTypes.INTEGER
+  }
 });
 
 
