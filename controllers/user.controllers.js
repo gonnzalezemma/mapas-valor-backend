@@ -11,9 +11,7 @@ const { where } = require('sequelize');
  */
 ctrlUsuarios.mostrarUsers = async (req, res)=>{
     try {
-        const projects = await Usuario.findAll({
-            atributes: ["id", "email","password","activo","role"],
-        });
+        const projects = await Usuario.findAll();
         res.json(projects);
     } catch (error) {
         res.status(500).json({
@@ -32,16 +30,13 @@ ctrlUsuarios.crearUsers = async (req, res)=>{
     
     const pass = bcryptjs.hashSync(password,salt )
     
-    const newUser = await Usuario.create({email, password:pass, activo:true,role:"user"},{
-    fields:["email","password","activo","role"]}
-
-)
+    const newUser = await Usuario.create({email, password:pass, activo:true,role:"user"})
 
 
 await newUser.save();
 
     
-res.json({
+return res.json({
     msg:"User create user successfully"
 });
 }

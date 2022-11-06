@@ -16,7 +16,7 @@ crtlParcelas.agregarParcelas = async (req, res)=>{
     const verparcela =  await Parcelas.create({
           parcela:poligono,
           nombreParcela:nombreParcela,
-          PerfilUserId:id
+          PerfilId:id
       })
 
  return res.status(200).json(verparcela)
@@ -64,6 +64,25 @@ crtlParcelas.verParcelas = async (req, res)=>{
     }
    return res.status(200).json(
     parcelasUser
+   )
+}
+
+/* 
+? ver parcela id
+*/
+crtlParcelas.verParcela = async (req, res)=>{
+
+    const userId = req.usuario.id;
+    const idParcela = req.params.parcelaid
+    const {id} =await Perfil.findOne({where:{PerfilUserId: userId}}) 
+
+    const parcelaUser = await Parcelas.findOne({where:{ [Op.and]:[{active:true},{PerfilUserId:id},{id:idParcela}]}}) 
+
+    if(!parcelaUser){
+        return res.status(404).json({msg:"No se encontraron parcelas"})
+    }
+   return res.status(200).json(
+    parcelaUser
    )
 }
 /* 

@@ -84,7 +84,7 @@ crtlRegistros.verRegistrosParcela = async (req, res)=>{
 
 crtlRegistros.verRegistros = async (req, res)=>{
     
-    const idUser = req.Usuario.id;
+    const idUser = req.usuario.id;
     
     const {id} = await Perfil.findOne({where:{PerfilUserId:idUser}}) 
     

@@ -13,10 +13,10 @@ crtlServicios.agregarServicio = async (req, res) => {
     });
   }
   let unidad;
-  if ((unidadMedida = 0)) {
+  if (unidadMedida == 0) {
     unidad = "decimal";
   }
-  if ((unidadMedida = 1)) {
+  if (unidadMedida == 1) {
     unidad = "porcentual";
   }
   //? decimal 0 porcentual 1
