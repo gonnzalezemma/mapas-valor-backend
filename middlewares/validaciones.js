@@ -14,12 +14,12 @@ validacion.validarRutaLogin = [
       .isString()
       .not()
       .isEmpty()
-      .isLength({ min: 3, max: 8 }),
+      .isLength({ min: 3, max: 25 }),
     body("password", "El password ingresado no contiene un formato correcto")
       .isString()
       .not()
       .isEmpty()
-      .isLength({ min: 3, max: 8 }),
+      .isLength({ min: 3, max: 50 }),
   ];
   
   validacion.validarCreateUser = [
@@ -27,14 +27,7 @@ validacion.validarRutaLogin = [
       .isString()
       .not()
       .isEmpty()
-      .isLength({ min: 3, max: 8 })
-      .custom(ExisteEmail),
-  
-    body("tipoRole", "El tipo ingresado no contiene un formato correcto")
-      .isString()
-      .not()
-      .isEmpty()
-      .isLength({ min: 1, max: 8 }),
+      .isLength({ min: 3, max: 25 }),
 
     validar_campos,
   ];

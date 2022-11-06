@@ -4,12 +4,12 @@ const {
 } = require('../models/SequelizeModels')
 
 validacionesHelper.ExisteEmail = async( req, res, next ) => {
-    const {email}=  req.body;
-    const emailEncontrado = await  Perfil.findOne({email:email});
-
+    const {email} =  req.body;
+    const emailEncontrado = await Usuario.findOne({where:{email:email}});
+console.log(emailEncontrado)
     if(emailEncontrado){
         return res.status(401).json({
-            message: 'Email ya esxiste',
+            message: 'Email ya existe',
             email:email
         })
     }
