@@ -91,7 +91,13 @@ model.Parcelas = sequelize.define("Parcelas", {
   },
   nombreParcela: {
     type: DataTypes.STRING(10),
+  },
+  active:{
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
   }
+
 });
 
 model.Registros = sequelize.define(
@@ -110,21 +116,11 @@ model.Registros = sequelize.define(
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
-  },
-  {
-    underscored: true,
-    timestamps: true,
-    tableName: "Registros",
-    comentario: "Registro de los servicios de maping manuales",
-    charset: "utf8",
-    collate: "utf8_general_ci",
-    indexes: [
-      {
-        name: "Perfil_userId",
-        method: "BTREE",
-        fields: ["parcela_id"],
-      },
-    ],
+    active:{
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
+    }
   }
 );
 
@@ -140,7 +136,7 @@ model.DatosParcela = sequelize.define("DatosParcela", {
     type: DataTypes.GEOMETRY("POINT", 4326),
   },
   valor: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     required: true,
   },
 });
@@ -182,12 +178,12 @@ model.Usuario.hasOne(model.Usuario,{
 });
 
 
-model.Perfil.belongsTo(model.Parcelas, {
-  foreignKey: "parcelaId",
+model.Perfil.hasMany(model.Parcelas, {
+  foreignKey: "PerfilId",
   sourceKey: "id",
 }); //*Una parcela tiene muchos registros
-model.Parcelas.hasMany(model.Perfil, {
-  foreignKey: "PerfilUserId",
+model.Parcelas.belongsTo(model.Perfil, {
+  foreignKey: "PerfilId",
   targetId: "id",
 }); //*Una parcela pertenece a un perfil
 

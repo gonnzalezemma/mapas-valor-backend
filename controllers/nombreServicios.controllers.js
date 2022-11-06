@@ -2,7 +2,7 @@ const crtlServicios = {};
 
 const { NombreServicios } = require("../models/SequelizeModels");
 
-crtlServicios.agregarServicio = async () => {
+crtlServicios.agregarServicio = async (req, res) => {
   const { nombre, valorOptimo, unidadMedida, descripcion } = req.body;
   const idUser = req.usuario.id;
   const servicio = await NombreServicios.findOne({ where: { nombre: nombre } });
@@ -37,7 +37,7 @@ crtlServicios.agregarServicio = async () => {
   });
 };
 
-crtlServicios.editarServicio = async () => {
+crtlServicios.editarServicio = async (req, res) => {
   const { nombre, valorOptimo, unidadMedida, descripcion } = req.body;
   const idUser = req.usuario.id;
   const id = req.params.idServicio;
@@ -55,7 +55,7 @@ crtlServicios.editarServicio = async () => {
   });
 };
 
-crtlServicios.verServicios = async()=>{
+crtlServicios.verServicios = async(req, res)=>{
 
     const idUser = req.usuario.id;
 
