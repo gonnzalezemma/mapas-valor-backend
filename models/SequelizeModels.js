@@ -172,7 +172,7 @@ model.Perfil.belongsTo(model.Usuario,{
     foreignKey: "PerfilUserId",
 
 });
-model.Usuario.hasOne(model.Usuario,{
+model.Usuario.hasOne(model.Perfil,{
     foreignKey: "PerfilUserId",
 
 });
