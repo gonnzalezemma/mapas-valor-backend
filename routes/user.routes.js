@@ -13,6 +13,9 @@ const {
     mostrarUsers,
     crearUsers
 }= require('../controllers/user.controllers')
+const {
+  ExisteEmail
+}= require('../helpers/validaciones.help')
 
 const { 
   validarRutaLogin,
@@ -22,9 +25,6 @@ const {
 
 } = require("../middlewares/validaciones");
 
-router.post('/crearuser',crearUsers)
-
-
 
 // ? POST route login
  router.post('/login/usuarios',validarRutaLogin, rutaLogin)
@@ -33,7 +33,7 @@ router.post('/crearuser',crearUsers)
  router.get('/usuarios/get-user',mostrarUsers)
 
 // ? POST  route add user
-  router.post('/usuarios/create-user',validarCreateUser,crearUsers)
+  router.post('/usuarios/create-user',ExisteEmail,validarCreateUser,crearUsers)
 
 // todo: Route edit user
 //* edit user
